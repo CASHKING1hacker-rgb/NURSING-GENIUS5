@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>👨‍🏫 Admin Dashboard</h1>
+
+<div class="card">
+
+<h2>📚 Manage Notes</h2>
+
+<p>Add new nursing notes for students.</p>
+
+<a class="button" href="/add_note">
+Add Note
+</a>
+
+</div>
+
+
+<div class="card">
+
+<h2>📝 Manage Quiz Questions</h2>
+
+<p>Create exam questions for students.</p>
+
+<a class="button" href="/add_question">
+Add Question
+</a>
+
+</div>
+
+
+<div class="card">
+
+<h2>📖 Subjects</h2>
+
+<p>View all nursing subjects.</p>
+
+<a class="button" href="/subjects">
+View Subjects
+</a>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔒 Security</h2>
+
+<p>
+Only the administrator can access these features.
+</p>
+
+</div>
+
+
+{% endblock %}
