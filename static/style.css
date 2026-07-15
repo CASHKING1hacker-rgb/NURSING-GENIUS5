@@ -1,0 +1,135 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f8fb;
+    margin:0;
+    padding:0;
+}
+
+nav{
+    background:#0077b6;
+    padding:15px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-right:20px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+button{
+    background:#0077b6;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#005f8f;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+footer{
+    background:#0077b6;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+}
+
+footer p{
+    margin:0;
+}
+
+/* Mobile Design */
+
+@media (max-width: 600px){
+
+    .container{
+        width:95%;
+        padding:10px;
+    }
+
+
+    nav{
+        text-align:center;
+    }
+
+
+    nav a{
+        display:block;
+        margin:10px 0;
+    }
+
+
+    .card{
+        padding:15px;
+        margin-top:15px;
+    }
+
+
+    h1{
+        font-size:25px;
+    }
+
+
+    button,
+    .button{
+        width:100%;
+        display:block;
+        text-align:center;
+        margin-top:10px;
+    }
+
+
+    input,
+    select,
+    textarea{
+        font-size:16px;
+    }
+
+}
+
+nav img{
+    vertical-align: middle;
+    border-radius:50%;
+    margin-right:10px;
+}
+
+.footer{
+    background:#0077b6;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+}
+
+.flash{
+    background:#d4edda;
+    color:#155724;
+    padding:12px;
+    margin:15px 0;
+    border-radius:8px;
+    text-align:center;
+}
