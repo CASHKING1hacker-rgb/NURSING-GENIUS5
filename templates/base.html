@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<meta name="theme-color" content="#0077b6">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Nursing Genius</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f9fc;
+}
+
+.navbar{
+    background:#0077b6;
+    color:white;
+    padding:15px;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin-right:20px;
+    font-weight:bold;
+}
+
+.logo{
+    font-size:28px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    margin:20px 0;
+    border-radius:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+.button{
+    display:inline-block;
+    background:#00a86b;
+    color:white;
+    padding:12px 25px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.button:hover{
+    background:#007a52;
+}
+
+.footer{
+    margin-top:40px;
+    background:#0077b6;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<a href="/">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+         width="50" 
+         height="50">
+    🩺 Nursing Genius
+</a>
+
+<a href="/notes">Notes</a>
+
+<a href="/quiz">Quiz</a>
+
+<a href="/dashboard">Dashboard</a>
+
+<a href="/logout">
+Logout
+</a>
+
+</nav>
+
+<div class="container">
+
+<div class="navbar">
+
+<span class="logo">🩺 Nursing Genius</span>
+
+<br><br>
+
+<a href="/">Home</a>
+<a href="/dashboard">Dashboard</a>
+<a href="/notes">Notes</a>
+<a href="/quiz">Quiz</a>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+<div class="container">
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+<div class="footer">
+
+© 2026 Dr. ABDULWAHAAB  (Nursing Master)
+
+</div>
+
+<footer class="footer">
+    <p>© 2026 Nursing Genius | Developed by A.A.M CASH KING1</p>
+</footer>
+
+</div>
+
+</body>
+
+</html>
