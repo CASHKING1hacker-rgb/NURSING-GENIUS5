@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>📝 Choose Quiz Subject</h1>
+
+{% for subject in subjects %}
+
+<div class="card">
+
+<h2>{{ subject[1] }}</h2>
+
+<a class="button" href="/quiz/{{ subject[0] }}">
+Start Quiz
+
+</a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
