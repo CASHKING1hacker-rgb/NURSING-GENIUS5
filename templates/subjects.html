@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>📚 Nursing Subjects</h1>
+
+{% for subject in subjects %}
+
+<div class="card">
+
+<h2>{{ subject[1] }}</h2>
+
+<a class="button" href="/subject/{{ subject[0] }}">
+Open Subject
+
+</a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
