@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>🩺 Student Dashboard</h1>
+
+<h2>Welcome {{ username }}</h2>
+
+<div class="card">
+<h2>📚 Study Center</h2>
+
+<a class="button" href="/notes">📖 Nursing Notes</a>
+<br><br>
+
+<a class="button" href="/quiz">📝 Take Quiz</a>
+<br><br>
+
+<a class="button" href="/subjects">📚 All Subjects</a>
+<br><br>
+
+<a class="button" href="/anatomy">🦴 Anatomy & Physiology</a>
+<br><br>
+
+<a class="button" href="/pharmacology">💊 Pharmacology</a>
+<br><br>
+
+<a class="button" href="/mental_health">🧠 Mental Health</a>
+<br><br>
+
+<a class="button" href="/medical_nursing">🏥 Medical Nursing</a>
+
+<a class="button" href="/anatomy">Anatomy & Physiology</a>
+<br><br>
+
+<a class="button" href="/pharmacology">Pharmacology</a>
+<br><br>
+
+<a class="button" href="/mental_health">Mental Health</a>
+<br><br>
+
+<a class="button" href="/medical_nursing">Medical Nursing</a>
+
+</div>
+
+<div class="card">
+
+<h2>📊 My Progress</h2>
+
+<p>Quizzes Completed: {{ quizzes }}</p>
+
+<p>Average Score: {{ average }}</p>
+
+</div>
+
+<div class="card">
+
+<h2>🏆 Achievements</h2>
+
+<p>🎖 Beginner Nurse</p>
+
+<p>⭐ Complete quizzes to unlock more badges.</p>
+
+</div>
+
+<div class="card">
+
+<h2>⭐ Premium</h2>
+
+<p>Unlock premium notes, mock exams, and certificates.</p>
+
+<a class="button" href="#">Upgrade</a>
+
+</div>
+
+<div class="card">
+
+<h2>⚙️ Quick Actions</h2>
+
+<a class="button" href="/logout">🚪 Logout</a>
+
+</div>
+
+{% endblock %}
