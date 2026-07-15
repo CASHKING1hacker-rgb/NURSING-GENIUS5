@@ -1,0 +1,29 @@
+<form method="POST">
+
+<label>Subject</label>
+
+<select name="subject_id">
+
+{% for subject in subjects %}
+<option value="{{ subject[0] }}">
+{{ subject[1] }}
+</option>
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Topic</label>
+<input type="text" name="topic">
+
+<br><br>
+
+<label>Content</label>
+<textarea name="content"></textarea>
+
+<br><br>
+
+<button type="submit">Save Note</button>
+
+</form>
