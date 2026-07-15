@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+<h1>📚 Nursing Genius Notes</h1>
+
+{% if notes %}
+
+    {% for note in notes %}
+
+        <hr>
+
+        <h2>{{ note[1] }}</h2>
+
+        <h3>{{ note[2] }}</h3>
+
+        <p>{{ note[3] }}</p>
+
+        <a href="/delete_note/{{ note[0] }}">
+            🗑 Delete Note
+        </a>
+
+    {% endfor %}
+
+{% else %}
+
+<h2>No notes have been added yet.</h2>
+
+{% endif %}
+
+<br>
+
+<a class="button" href="/">
+🏠 Home
+</a>
+
+</div>
+
+{% endblock %}
