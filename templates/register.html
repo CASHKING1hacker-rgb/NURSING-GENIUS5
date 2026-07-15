@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/notes">Notes</a>
+    <a href="/quiz">Quiz</a>
+    <a href="/subjects">Subjects</a>
+    <a href="/logout">Logout</a>
+</nav>
+
+<div class="container">
+
+<h1>🩺 Nursing Genius</h1>
+<h2>Create Student Account</h2>
+
+<form method="POST" action="/register">
+
+<label>Full Name</label><br>
+<input type="text" name="fullname" required><br><br>
+
+<label>Email</label><br>
+<input type="email" name="email" required><br><br>
+
+<label>Password</label><br>
+<input type="password" name="password" required><br><br>
+
+<button type="submit">Register</button>
+
+</form>
+
+<br>
+
+<a href="/">🏠 Home</a>
+
+</div>
+
+</body>
+</html>
