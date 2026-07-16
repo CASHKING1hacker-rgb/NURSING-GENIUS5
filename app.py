@@ -472,5 +472,34 @@ def subjects():
     return render_template(
         "subjects.html",
         subjects=subjects
-    )    
+    )
+@app.route("/hypertension-nursing-management")
+def hypertension():
+
+    return """
+    <h1>Hypertension Nursing Management</h1>
+
+    <h2>Definition</h2>
+    <p>
+    Hypertension is a condition where blood pressure is persistently elevated above normal levels.
+    </p>
+
+    <h2>Signs and Symptoms</h2>
+    <ul>
+        <li>Headache</li>
+        <li>Dizziness</li>
+        <li>Blurred vision</li>
+        <li>Fatigue</li>
+    </ul>
+
+    <h2>Nursing Management</h2>
+    <ul>
+        <li>Monitor blood pressure regularly</li>
+        <li>Administer prescribed antihypertensive drugs</li>
+        <li>Educate patients on lifestyle changes</li>
+        <li>Monitor for complications</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """    
 app.run(host="0.0.0.0", port=5000)
