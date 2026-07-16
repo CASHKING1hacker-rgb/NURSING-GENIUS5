@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, flash
 
+from flask import Response
+import datetime
+
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -761,5 +764,46 @@ def add_seo_page():
     </button>
 
     </form>
-    """        
+    """
+@app.route("/sitemap.xml")
+def sitemap():
+
+    pages = [
+
+        "/",
+        "/notes",
+        "/quiz",
+        "/subjects",
+        "/register",
+
+        "/hypertension-nursing-management",
+        "/antibiotics-pharmacology-nursing",
+        "/imnci-guidelines-nursing",
+        "/child-immunization-schedule",
+        "/diabetes-nursing-management",
+        "/anatomy-cardiovascular-system",
+        "/pediatric-emergencies-nursing"
+    ]
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>']
+    xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+
+    today = datetime.date.today().isoformat()
+
+    for page in pages:
+        xml.append(f"""
+<url>
+    <loc>https://nursing-genius5.onrender.com{page}</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+</url>
+""")
+
+    xml.append("</urlset>")
+
+    return Response(
+        "\n".join(xml),
+        mimetype="application/xml"
+    )            
 app.run(host="0.0.0.0", port=5000)
