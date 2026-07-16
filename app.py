@@ -501,5 +501,196 @@ def hypertension():
     </ul>
 
     <a href="/">Back to Nursing Genius</a>
-    """    
+    """  
+    
+@app.route("/antibiotics-pharmacology-nursing")
+def antibiotics():
+
+    return """
+    <h1>Antibiotics Pharmacology Nursing Notes</h1>
+
+    <h2>Definition</h2>
+    <p>
+    Antibiotics are medicines used to treat bacterial infections by killing bacteria
+    or stopping their growth.
+    </p>
+
+    <h2>Common Classes of Antibiotics</h2>
+    <ul>
+        <li>Penicillins</li>
+        <li>Cephalosporins</li>
+        <li>Macrolides</li>
+        <li>Tetracyclines</li>
+        <li>Aminoglycosides</li>
+    </ul>
+
+    <h2>Nursing Responsibilities</h2>
+    <ul>
+        <li>Check patient allergies before administration</li>
+        <li>Administer antibiotics at the prescribed time</li>
+        <li>Monitor for side effects and allergic reactions</li>
+        <li>Educate patients to complete the full course</li>
+    </ul>
+
+    <h2>Common Side Effects</h2>
+    <ul>
+        <li>Nausea and vomiting</li>
+        <li>Diarrhea</li>
+        <li>Skin reactions</li>
+        <li>Allergic reactions</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """  
+@app.route("/imnci-guidelines-nursing")
+def imnci():
+
+    return """
+    <h1>IMNCI Guidelines for Nursing Students</h1>
+
+    <h2>Introduction</h2>
+    <p>
+    Integrated Management of Neonatal and Childhood Illness (IMNCI) is a strategy
+    used to assess, classify and manage childhood illnesses.
+    </p>
+
+    <h2>Main Assessment Areas</h2>
+    <ul>
+        <li>General danger signs</li>
+        <li>Cough or difficult breathing</li>
+        <li>Diarrhea</li>
+        <li>Fever</li>
+        <li>Malnutrition</li>
+    </ul>
+
+    <h2>Nursing Role</h2>
+    <ul>
+        <li>Assess the child correctly</li>
+        <li>Provide appropriate treatment</li>
+        <li>Educate caregivers</li>
+        <li>Monitor progress</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """
+
+
+@app.route("/child-immunization-schedule")
+def immunization():
+
+    return """
+    <h1>Child Immunization Schedule for Nursing Students</h1>
+
+    <h2>Importance of Immunization</h2>
+    <p>
+    Immunization protects children against vaccine-preventable diseases.
+    </p>
+
+    <h2>Common Childhood Vaccines</h2>
+    <ul>
+        <li>BCG</li>
+        <li>OPV</li>
+        <li>Pentavalent vaccine</li>
+        <li>Measles-Rubella vaccine</li>
+        <li>Pneumococcal vaccine</li>
+    </ul>
+
+    <h2>Nursing Responsibilities</h2>
+    <ul>
+        <li>Maintain vaccine cold chain</li>
+        <li>Educate parents</li>
+        <li>Record vaccinations</li>
+        <li>Observe for reactions</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """
+
+
+@app.route("/diabetes-nursing-management")
+def diabetes():
+
+    return """
+    <h1>Diabetes Nursing Management</h1>
+
+    <h2>Definition</h2>
+    <p>
+    Diabetes mellitus is a metabolic disorder characterized by high blood glucose levels.
+    </p>
+
+    <h2>Signs and Symptoms</h2>
+    <ul>
+        <li>Increased thirst</li>
+        <li>Frequent urination</li>
+        <li>Weight loss</li>
+        <li>Fatigue</li>
+    </ul>
+
+    <h2>Nursing Management</h2>
+    <ul>
+        <li>Monitor blood glucose</li>
+        <li>Administer insulin as prescribed</li>
+        <li>Provide dietary education</li>
+        <li>Prevent complications</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """
+
+
+@app.route("/anatomy-cardiovascular-system")
+def cardiovascular():
+
+    return """
+    <h1>Cardiovascular System Anatomy and Physiology</h1>
+
+    <h2>Overview</h2>
+    <p>
+    The cardiovascular system consists of the heart, blood vessels and blood.
+    It transports oxygen and nutrients throughout the body.
+    </p>
+
+    <h2>Main Components</h2>
+    <ul>
+        <li>Heart</li>
+        <li>Arteries</li>
+        <li>Veins</li>
+        <li>Capillaries</li>
+    </ul>
+
+    <h2>Nursing Importance</h2>
+    <ul>
+        <li>Monitor vital signs</li>
+        <li>Assess circulation</li>
+        <li>Recognize cardiovascular emergencies</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """
+
+
+@app.route("/pediatric-emergencies-nursing")
+def pediatric_emergencies():
+
+    return """
+    <h1>Pediatric Emergencies Nursing Notes</h1>
+
+    <h2>Common Emergencies</h2>
+    <ul>
+        <li>Severe dehydration</li>
+        <li>Respiratory distress</li>
+        <li>Seizures</li>
+        <li>Severe infections</li>
+    </ul>
+
+    <h2>Nursing Management</h2>
+    <ul>
+        <li>Rapid assessment</li>
+        <li>Maintain airway and breathing</li>
+        <li>Monitor vital signs</li>
+        <li>Provide emergency treatment</li>
+    </ul>
+
+    <a href="/">Back to Nursing Genius</a>
+    """        
 app.run(host="0.0.0.0", port=5000)
