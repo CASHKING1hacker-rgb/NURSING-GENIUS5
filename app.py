@@ -692,5 +692,74 @@ def pediatric_emergencies():
     </ul>
 
     <a href="/">Back to Nursing Genius</a>
+    """  
+@app.route("/page/<slug>")
+def seo_page(slug):
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT title, content FROM seo_pages WHERE slug=?",
+        (slug,)
+    )
+
+    page = cursor.fetchone()
+
+    connection.close()
+
+    if page:
+        return render_template(
+            "seo_page.html",
+            page=page
+        )
+
+    return "Page not found" 
+         
+@app.route("/add_seo_page", methods=["GET","POST"])
+def add_seo_page():
+
+    if session.get("role") != "admin":
+        return "Access Denied!"
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        title = request.form["title"]
+        slug = request.form["slug"]
+        content = request.form["content"]
+
+        cursor.execute("""
+        INSERT INTO seo_pages(title,slug,content)
+        VALUES(?,?,?)
+        """,
+        (title,slug,content))
+
+        connection.commit()
+        connection.close()
+
+        return "SEO Page Created Successfully"
+
+    connection.close()
+
+    return """
+    <form method="POST">
+
+    Title:
+    <input name="title"><br>
+
+    Slug:
+    <input name="slug"><br>
+
+    Content:
+    <textarea name="content"></textarea><br>
+
+    <button>
+    Create Page
+    </button>
+
+    </form>
     """        
 app.run(host="0.0.0.0", port=5000)
