@@ -805,5 +805,47 @@ def sitemap():
     return Response(
         "\n".join(xml),
         mimetype="application/xml"
-    )            
+    )
+    
+@app.route("/ai", methods=["GET", "POST"])
+def ai():
+
+    answer = ""
+
+    if request.method == "POST":
+
+        question = request.form["question"].lower()
+
+        connection = sqlite3.connect("nursing_genius.db")
+        cursor = connection.cursor()
+
+        cursor.execute("""
+        SELECT topic, content
+        FROM notes
+        WHERE lower(topic) LIKE ?
+        OR lower(content) LIKE ?
+        LIMIT 1
+        """,
+        ('%' + question + '%',
+         '%' + question + '%'))
+
+        result = cursor.fetchone()
+
+        connection.close()
+
+        if result:
+            answer = f"""
+            <h2>{result[0]}</h2>
+            <p>{result[1]}</p>
+            """
+        else:
+            answer = """
+            <h2>Sorry</h2>
+            <p>I couldn't find that topic in Nursing Genius notes.</p>
+            """
+
+    return render_template(
+        "ai.html",
+        answer=answer
+    )                
 app.run(host="0.0.0.0", port=5000)
