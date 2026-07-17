@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, session, redirect, flash
 from flask import Response
 import datetime
 
+import requests
+
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -15,6 +17,43 @@ app.secret_key = os.environ.get(
     "temporary-secret-key"
 )
 
+def ask_ai(question):
+
+    # 1. Search Nursing Genius notes first
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT topic, content
+        FROM notes
+        WHERE LOWER(topic) LIKE ?
+           OR LOWER(content) LIKE ?
+        LIMIT 1
+    """, (
+        "%" + question.lower() + "%",
+        "%" + question.lower() + "%"
+    ))
+
+    note = cursor.fetchone()
+
+    connection.close()
+
+    if note:
+        return {
+            "source": "notes",
+            "title": note[0],
+            "answer": note[1]
+        }
+
+    # 2. AI fallback (we'll connect this next)
+
+    return {
+        "source": "ai",
+        "title": "No local notes found",
+        "answer": "AI integration is coming soon."
+    }
+    
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -813,36 +852,14 @@ def ai():
     answer = ""
 
     if request.method == "POST":
-
-        question = request.form["question"].lower()
-
-        connection = sqlite3.connect("nursing_genius.db")
-        cursor = connection.cursor()
-
-        cursor.execute("""
-        SELECT topic, content
-        FROM notes
-        WHERE lower(topic) LIKE ?
-        OR lower(content) LIKE ?
-        LIMIT 1
-        """,
-        ('%' + question + '%',
-         '%' + question + '%'))
-
-        result = cursor.fetchone()
-
-        connection.close()
-
-        if result:
-            answer = f"""
-            <h2>{result[0]}</h2>
-            <p>{result[1]}</p>
-            """
-        else:
-            answer = """
-            <h2>Sorry</h2>
-            <p>I couldn't find that topic in Nursing Genius notes.</p>
-            """
+        question = request.form["question"]
+        result = ask_ai(question)
+        
+        answer = f"""
+        <h2>{result['title']}</h2>
+        <p>{result['answer']}</p>
+        <small>Source: {result['source']}</small>
+    """
 
     return render_template(
         "ai.html",
