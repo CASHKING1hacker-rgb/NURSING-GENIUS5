@@ -51,13 +51,51 @@ def ask_ai(question):
             "answer": note[1]
         }
 
-    # 2. AI fallback (we'll connect this next)
-
-    return {
-        "source": "ai",
-        "title": "No local notes found",
-        "answer": "AI integration is coming soon."
+        headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
     }
+
+    payload = {
+        "model": "openai/gpt-oss-20b:free",
+        "messages": [
+            {
+                "role": "system",
+                "content": "You are Nursing Genius AI, an expert nursing tutor."
+            },
+            {
+                "role": "user",
+                "content": question
+            }
+        ]
+    }
+
+    try:
+
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        return {
+            "source": "AI",
+            "title": "Nursing Genius AI",
+            "answer": data["choices"][0]["message"]["content"]
+        }
+
+    except Exception as e:
+
+        return {
+            "source": "Error",
+            "title": "AI Error",
+            "answer": str(e)
+        }
     
 @app.route("/")
 def home():
@@ -857,18 +895,19 @@ def ai():
     answer = ""
 
     if request.method == "POST":
+
         question = request.form["question"]
+
         result = ask_ai(question)
-        
+
         answer = f"""
         <h2>{result['title']}</h2>
         <p>{result['answer']}</p>
         <small>Source: {result['source']}</small>
-    """
+        """
 
-    return {
-     "source": "ai",
-     "title": "No local notes found",
-     "answer": "AI integration is coming soon."
-}                
+    return render_template(
+        "ai.html",
+        answer=answer
+    )}                
 app.run(host="0.0.0.0", port=5000)
