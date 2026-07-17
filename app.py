@@ -5,6 +5,11 @@ import datetime
 
 import requests
 
+import os
+
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+
+
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -861,8 +866,9 @@ def ai():
         <small>Source: {result['source']}</small>
     """
 
-    return render_template(
-        "ai.html",
-        answer=answer
-    )                
+    return {
+     "source": "ai",
+     "title": "No local notes found",
+     "answer": "AI integration is coming soon."
+}                
 app.run(host="0.0.0.0", port=5000)
