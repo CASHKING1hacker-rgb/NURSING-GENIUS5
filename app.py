@@ -9,6 +9,8 @@ import os
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
+print("OPENROUTER KEY =", OPENROUTER_API_KEY)
+
 
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,8 +26,6 @@ app.secret_key = os.environ.get(
 
 def ask_ai(question):
 
-    # 1. Search Nursing Genius notes first
-
     connection = sqlite3.connect("nursing_genius.db")
     cursor = connection.cursor()
 
@@ -33,9 +33,10 @@ def ask_ai(question):
         SELECT topic, content
         FROM notes
         WHERE LOWER(topic) LIKE ?
-           OR LOWER(content) LIKE ?
+        OR LOWER(content) LIKE ?
         LIMIT 1
-    """, (
+    """,
+    (
         "%" + question.lower() + "%",
         "%" + question.lower() + "%"
     ))
@@ -44,24 +45,39 @@ def ask_ai(question):
 
     connection.close()
 
+
     if note:
         return {
-            "source": "notes",
+            "source": "Notes",
             "title": note[0],
             "answer": note[1]
         }
 
-        headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json"
+
+    if not OPENROUTER_API_KEY:
+        return {
+            "source": "Error",
+            "title": "Missing API Key",
+            "answer": "OpenRouter API key is not configured."
+        }
+
+
+    headers = {
+        "Authorization": "Bearer " + OPENROUTER_API_KEY,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://nursing-genius5.onrender.com",
+        "X-Title": "Nursing Genius"
     }
+
 
     payload = {
         "model": "openai/gpt-oss-20b:free",
         "messages": [
             {
                 "role": "system",
-                "content": "You are Nursing Genius AI, an expert nursing tutor."
+                "content":
+                "You are Nursing Genius AI. "
+                "Teach nursing students clearly."
             },
             {
                 "role": "user",
@@ -69,6 +85,7 @@ def ask_ai(question):
             }
         ]
     }
+
 
     try:
 
@@ -79,22 +96,31 @@ def ask_ai(question):
             timeout=30
         )
 
-        response.raise_for_status()
 
         data = response.json()
 
+        if "error" in data:
+            return {
+                "source":"OpenRouter",
+                "title":"API Error",
+                "answer":data["error"]["message"]
+            }
+
+
         return {
-            "source": "AI",
-            "title": "Nursing Genius AI",
-            "answer": data["choices"][0]["message"]["content"]
+            "source":"AI",
+            "title":"Nursing Genius AI",
+            "answer":
+            data["choices"][0]["message"]["content"]
         }
+
 
     except Exception as e:
 
         return {
-            "source": "Error",
-            "title": "AI Error",
-            "answer": str(e)
+            "source":"Error",
+            "title":"AI Error",
+            "answer":str(e)
         }
     
 @app.route("/")
@@ -909,5 +935,5 @@ def ai():
     return render_template(
         "ai.html",
         answer=answer
-    )}                
+        )              
 app.run(host="0.0.0.0", port=5000)
