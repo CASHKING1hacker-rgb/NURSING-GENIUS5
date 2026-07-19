@@ -1,70 +1,101 @@
 {% extends "base.html" %}
 
+{% block title %}Nursing Genius{% endblock %}
+
 {% block content %}
 
-<div class="card">
+<section class="hero">
 
-<h1>🩺 Nursing Genius</h1>
+<h1 class="display-4">🩺 Nursing Genius</h1>
 
-<h2>Learn Nursing Smarter</h2>
-
-<p>
-Study notes, practice quizzes, monitor your progress, and prepare for exams—all in one platform.
+<p class="lead">
+Learn Nursing Faster with Notes, Quizzes and AI.
 </p>
 
-<br>
+<div class="mt-4">
 
-<a class="button" href="/register">Get Started</a>
+<a href="/notes" class="btn btn-light btn-lg">
+📚 Study Notes
+</a>
 
-</div>
+<a href="/quiz" class="btn btn-success btn-lg">
+📝 Take Quiz
+</a>
 
-<div class="card">
-
-<h2>📚 Study Notes</h2>
-
-<p>
-Comprehensive notes covering all major nursing subjects.
-</p>
-
-<a class="button" href="/notes">Start Studying</a>
-
-</div>
-
-<div class="card">
-
-<h2>📝 Practice Quizzes</h2>
-
-<p>
-Test your knowledge with exam-style questions.
-</p>
-
-<a class="button" href="/quiz">Start Quiz</a>
-
-</div>
-
-<div class="card">
-
-<h2>📈 Track Progress</h2>
-
-<p>
-Monitor your learning and quiz performance over time.
-</p>
-
-<a class="button" href="/dashboard">My Dashboard</a>
-
-<a class="button" href="/subjects">
-📚 View Subjects
+<a href="/ai" class="btn btn-warning btn-lg">
+🤖 Ask AI
 </a>
 
 </div>
 
-<div class="card">
+</section>
 
-<h2>👨‍🏫 Created by</h2>
 
-<p>
-A.A.M CASH KING1 (Nursing Master)
-</p>
+<div class="container mt-5">
+
+<form action="/search" method="GET">
+
+<div class="input-group">
+
+<input
+type="text"
+class="form-control form-control-lg"
+name="q"
+placeholder="Search nursing topics...">
+
+<button class="btn btn-primary">
+
+🔍 Search
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<div class="container mt-5">
+
+<h2 class="text-center mb-4">
+Why Students Love Nursing Genius
+</h2>
+
+<div class="row">
+
+<div class="col-md-3">
+<div class="card p-4 text-center">
+<h1>📚</h1>
+<h4>Notes</h4>
+<p>Detailed nursing notes.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card p-4 text-center">
+<h1>📝</h1>
+<h4>Quiz</h4>
+<p>Practice exam questions.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card p-4 text-center">
+<h1>🤖</h1>
+<h4>AI Tutor</h4>
+<p>Ask nursing questions anytime.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card p-4 text-center">
+<h1>🏆</h1>
+<h4>Dashboard</h4>
+<p>Track your learning progress.</p>
+</div>
+</div>
+
+</div>
 
 </div>
 
