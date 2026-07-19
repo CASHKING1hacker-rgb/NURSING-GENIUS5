@@ -1,164 +1,122 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>{% block title %}Nursing Genius - Nursing Notes and Quizzes{% endblock %}</title>
+<title>{% block title %}Nursing Genius{% endblock %}</title>
 
-<meta name="description" content="Nursing Genius helps nursing students study with nursing notes, quizzes, and exam preparation resources.">
-<meta name="keywords" content="nursing notes, nursing quizzes, nursing students, pharmacology, anatomy, nursing education">
-
-<meta name="google-site-verification" content="09qAZuUgFUzpgbhqWUo7GLdZnDGqvmHSQPm8oFZyyF8" />
-
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-
-<meta name="theme-color" content="#0077b6">
-
-<link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f9fc;
+background:#f5f8fc;
+font-family:Arial,sans-serif;
 }
 
 .navbar{
-    background:#0077b6;
-    color:white;
-    padding:15px;
+background:#0d6efd;
 }
 
-.navbar a{
-    color:white;
-    text-decoration:none;
-    margin-right:20px;
-    font-weight:bold;
+.navbar-brand,
+.nav-link{
+color:white!important;
+font-weight:bold;
 }
 
-.logo{
-    font-size:28px;
-}
-
-.container{
-    padding:20px;
+.hero{
+padding:70px 20px;
+background:linear-gradient(135deg,#0d6efd,#198754);
+color:white;
+text-align:center;
 }
 
 .card{
-    background:white;
-    padding:25px;
-    margin:20px 0;
-    border-radius:18px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+border:none;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+margin-bottom:20px;
 }
 
-.button{
-    display:inline-block;
-    background:#00a86b;
-    color:white;
-    padding:12px 25px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
+footer{
+margin-top:60px;
+background:#212529;
+color:white;
+padding:40px;
+text-align:center;
 }
-
-.button:hover{
-    background:#007a52;
-}
-
-.footer{
-    margin-top:40px;
-    background:#0077b6;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
-
 </style>
 
+{% block head %}{% endblock %}
 </head>
 
 <body>
 
-<nav>
+<nav class="navbar navbar-expand-lg">
+<div class="container">
 
-<a href="/">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" 
-         width="50" 
-         height="50">
-    🩺 Nursing Genius
-</a>
+<a class="navbar-brand" href="/">🩺 Nursing Genius</a>
 
-<a href="/notes">Notes</a>
+<button class="navbar-toggler bg-white"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#menu">
 
-<a href="/quiz">Quiz</a>
+<span class="navbar-toggler-icon"></span>
 
-<a href="/dashboard">Dashboard</a>
+</button>
 
-<a href="/logout">
-Logout
-</a>
+<div class="collapse navbar-collapse" id="menu">
 
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
+<li class="nav-item"><a class="nav-link" href="/notes">Notes</a></li>
+
+<li class="nav-item"><a class="nav-link" href="/subjects">Subjects</a></li>
+
+<li class="nav-item"><a class="nav-link" href="/quiz">Quiz</a></li>
+
+<li class="nav-item"><a class="nav-link" href="/ai">AI</a></li>
+
+<li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+
+</ul>
+
+</div>
+
+</div>
 </nav>
 
-<div class="container">
-
-<div class="navbar">
-
-<span class="logo">🩺 Nursing Genius</span>
-
-<br><br>
-
-<a href="/">Home</a>
-<a href="/dashboard">Dashboard</a>
-<a href="/notes">Notes</a>
-<a href="/quiz">Quiz</a>
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-<a href="/logout">Logout</a>
-<a href="/ai">🤖 AI Tutor</a>
-
-{% if session.get("role") == "admin" %}
-<a href="/admin">⚙️ Admin Panel</a>
-{% endif %}
-
-
-</div>
-
-<div class="container">
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="flash">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
 {% block content %}
-
 {% endblock %}
 
-</div>
+<footer>
 
-<div class="footer">
+<h4>Nursing Genius</h4>
 
-© 2026 Dr. ABDULWAHAAB  (Nursing Master)
+<p>Your Smart Nursing Learning Platform</p>
 
-</div>
+<p>
+<a href="/about" class="text-white">About</a> |
+<a href="/privacy" class="text-white">Privacy</a> |
+<a href="/contact" class="text-white">Contact</a> |
+<a href="/terms" class="text-white">Terms</a>
+</p>
 
-<footer class="footer">
-    <p>© 2026 Nursing Genius | Developed by A.A.M CASH KING1</p>
+<p>© 2026 Nursing Genius. All Rights Reserved.</p>
+
 </footer>
 
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<li class="nav-item">
+    <a class="nav-link" href="/profile">
+        👤 Profile
+    </a>
+</li>
 
 </body>
-
 </html>
