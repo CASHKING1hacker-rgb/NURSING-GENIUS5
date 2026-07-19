@@ -935,5 +935,82 @@ def ai():
     return render_template(
         "ai.html",
         answer=answer
-        )              
+        )
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+
+@app.route("/search")
+def search():
+
+    keyword = request.args.get("q", "")
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+    SELECT topic, content
+    FROM notes
+    WHERE topic LIKE ?
+       OR content LIKE ?
+    """, (
+        "%" + keyword + "%",
+        "%" + keyword + "%"
+    ))
+
+    results = cursor.fetchall()
+
+    connection.close()
+
+    return render_template(
+        "search.html",
+        keyword=keyword,
+        results=results
+    )
+
+
+@app.route("/profile")
+def profile():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+    SELECT fullname,
+           email,
+           profile_picture,
+           xp,
+           streak,
+           badges
+    FROM users
+    WHERE email=?
+    """, (session["user"],))
+
+    user = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "profile.html",
+        user=user
+    )              
 app.run(host="0.0.0.0", port=5000)
