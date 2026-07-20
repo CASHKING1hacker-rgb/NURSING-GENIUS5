@@ -63,38 +63,33 @@ def ask_ai(question):
 
 
     headers = {
-        "Authorization": "Bearer " + OPENROUTER_API_KEY,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://nursing-genius5.onrender.com",
-        "X-Title": "Nursing Genius"
-    }
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+    "Content-Type": "application/json",
+}
 
+payload = {
+    "model": "openai/gpt-oss-20b:free",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are Nursing Genius AI, an expert nursing tutor."
+        },
+        {
+            "role": "user",
+            "content": question
+        }
+    ]
+}
 
-    payload = {
-        "model": "openai/gpt-oss-20b:free",
-        "messages": [
-            {
-                "role": "system",
-                "content":
-                "You are Nursing Genius AI. "
-                "Teach nursing students clearly."
-            },
-            {
-                "role": "user",
-                "content": question
-            }
-        ]
-    }
+response = requests.post(
+    "https://openrouter.ai/api/v1/chat/completions",
+    headers=headers,
+    json=payload,
+    timeout=30
+)
 
-
-    try:
-
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=headers,
-            json=payload,
-            timeout=30
-        )
+print(response.status_code)
+print(response.text)
 
 
         data = response.json()
