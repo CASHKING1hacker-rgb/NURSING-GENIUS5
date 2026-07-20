@@ -1,70 +1,29 @@
-{% extends "base.html" %}
+<form method="POST">
 
-{% block content %}
+<label>Subject</label>
 
-<h1>👨‍🏫 Admin Dashboard</h1>
+<select name="subject_id">
 
-<div class="card">
+{% for subject in subjects %}
+<option value="{{ subject[0] }}">
+{{ subject[1] }}
+</option>
+{% endfor %}
 
-<h2>📚 Manage Notes</h2>
+</select>
 
-<p>Add new nursing notes for students.</p>
+<br><br>
 
-<a class="button" href="/add_note">
-Add Note
-</a>
+<label>Topic</label>
+<input type="text" name="topic">
 
-</div>
+<br><br>
 
+<label>Content</label>
+<textarea name="content"></textarea>
 
-<div class="card">
+<br><br>
 
-<h2>📝 Manage Quiz Questions</h2>
+<button type="submit">Save Note</button>
 
-<p>Create exam questions for students.</p>
-
-<a class="button" href="/add_question">
-Add Question
-</a>
-
-</div>
-
-
-<div class="card">
-
-<h2>📖 Subjects</h2>
-
-<p>View all nursing subjects.</p>
-
-<a class="button" href="/subjects">
-View Subjects
-</a>
-
-</div>
-
-
-<div class="card">
-
-<h2>🔒 Security</h2>
-
-<p>
-Only the administrator can access these features.
-</p>
-
-</div>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5628874287090033"
-     crossorigin="anonymous"></script>
-<!-- CASHKING1 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5628874287090033"
-     data-ad-slot="3618467337"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-{% endblock %}
+</form>
