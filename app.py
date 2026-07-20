@@ -417,8 +417,6 @@ def admin():
 
     return render_template("admin.html")
 
-    return render_template("admin.html")
-
     
 @app.route("/add_note", methods=["GET", "POST"])
 def add_note():
