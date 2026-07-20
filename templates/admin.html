@@ -1,29 +1,110 @@
-<form method="POST">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
 
-<label>Subject</label>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f1f8ff;
+            text-align:center;
+        }
 
-<select name="subject_id">
+        .card{
+            background:white;
+            margin:20px auto;
+            padding:20px;
+            width:300px;
+            border-radius:10px;
+            box-shadow:0 0 10px #ccc;
+        }
 
-{% for subject in subjects %}
-<option value="{{ subject[0] }}">
-{{ subject[1] }}
-</option>
-{% endfor %}
+        a{
+            display:block;
+            background:#0077b6;
+            color:white;
+            padding:12px;
+            margin:10px;
+            text-decoration:none;
+            border-radius:5px;
+        }
 
-</select>
+        a:hover{
+            background:#00a86b;
+        }
+    </style>
 
-<br><br>
+</head>
 
-<label>Topic</label>
-<input type="text" name="topic">
+<body>
 
-<br><br>
+<h1>🩺 Nursing Genius Admin Panel</h1>
 
-<label>Content</label>
-<textarea name="content"></textarea>
 
-<br><br>
+<div class="card">
 
-<button type="submit">Save Note</button>
+<h2>Notes Management</h2>
 
-</form>
+<a href="/add_note">
+➕ Add Notes
+</a>
+
+
+<a href="/notes">
+📚 View Notes
+</a>
+
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Quiz Management</h2>
+
+
+<a href="/add_question">
+➕ Add Quiz Questions
+</a>
+
+
+<a href="/quiz">
+📝 View Quiz
+</a>
+
+
+</div>
+
+
+
+<div class="card">
+
+<h2>SEO Pages</h2>
+
+
+<a href="/add_seo_page">
+🌐 Add SEO Page
+</a>
+
+
+</div>
+
+
+
+<div class="card">
+
+<a href="/dashboard">
+⬅ Back Dashboard
+</a>
+
+
+<a href="/logout">
+🚪 Logout
+</a>
+
+</div>
+
+
+</body>
+</html>
