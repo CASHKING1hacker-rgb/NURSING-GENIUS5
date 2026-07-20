@@ -62,60 +62,65 @@ def ask_ai(question):
         }
 
 
-    headers = {
-    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-    "Content-Type": "application/json",
-}
+    try:
 
-payload = {
-    "model": "openai/gpt-oss-20b:free",
-    "messages": [
-        {
-            "role": "system",
-            "content": "You are Nursing Genius AI, an expert nursing tutor."
-        },
-        {
-            "role": "user",
-            "content": question
+        headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json"
         }
-    ]
-}
 
-response = requests.post(
-    "https://openrouter.ai/api/v1/chat/completions",
-    headers=headers,
-    json=payload,
-    timeout=30
-)
 
-print(response.status_code)
-print(response.text)
+        payload = {
+            "model": "openai/gpt-oss-20b:free",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are Nursing Genius AI, an expert nursing tutor."
+                },
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ]
+        }
+
+
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+
+
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
 
 
         data = response.json()
 
+
         if "error" in data:
             return {
-                "source":"OpenRouter",
-                "title":"API Error",
-                "answer":data["error"]["message"]
+                "source": "OpenRouter",
+                "title": "API Error",
+                "answer": data["error"]["message"]
             }
 
 
         return {
-            "source":"AI",
-            "title":"Nursing Genius AI",
-            "answer":
-            data["choices"][0]["message"]["content"]
+            "source": "AI",
+            "title": "Nursing Genius AI",
+            "answer": data["choices"][0]["message"]["content"]
         }
 
 
     except Exception as e:
 
         return {
-            "source":"Error",
-            "title":"AI Error",
-            "answer":str(e)
+            "source": "Error",
+            "title": "AI Error",
+            "answer": str(e)
         }
     
 @app.route("/")
@@ -1011,4 +1016,5 @@ def profile():
     )
         
               
-app.run(host="0.0.0.0", port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
