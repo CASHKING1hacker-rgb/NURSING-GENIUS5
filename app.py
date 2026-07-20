@@ -1006,11 +1006,14 @@ def profile():
     """, (session["user"],))
 
     user = cursor.fetchone()
+    print(user)
 
     connection.close()
 
     return render_template(
         "profile.html",
         user=user
-    )              
+    )
+        
+              
 app.run(host="0.0.0.0", port=5000)
