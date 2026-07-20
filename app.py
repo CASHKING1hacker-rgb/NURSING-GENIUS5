@@ -26,6 +26,29 @@ app.secret_key = os.environ.get(
 
 def ask_ai(question):
 
+    # 1. Check saved AI answers first
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT answer FROM ai_answers WHERE question=?",
+        (question.lower(),)
+    )
+
+    saved = cursor.fetchone()
+
+    connection.close()
+
+    if saved:
+        return {
+            "source": "Saved AI Answer",
+            "title": "Nursing Genius AI",
+            "answer": saved[0]
+        }
+
+
+    # 2. Search Nursing Genius notes
+
     connection = sqlite3.connect("nursing_genius.db")
     cursor = connection.cursor()
 
@@ -54,6 +77,8 @@ def ask_ai(question):
         }
 
 
+    # 3. Check API key
+
     if not OPENROUTER_API_KEY:
         return {
             "source": "Error",
@@ -61,6 +86,8 @@ def ask_ai(question):
             "answer": "OpenRouter API key is not configured."
         }
 
+
+    # 4. Ask OpenRouter
 
     try:
 
@@ -93,25 +120,44 @@ def ask_ai(question):
         )
 
 
-        print("STATUS:", response.status_code)
-        print("RESPONSE:", response.text)
-
-
         data = response.json()
 
 
         if "error" in data:
             return {
-                "source": "OpenRouter",
-                "title": "API Error",
+                "source": "AI",
+                "title": "AI temporarily unavailable",
                 "answer": data["error"]["message"]
             }
+
+
+        ai_answer = data["choices"][0]["message"]["content"]
+
+
+        # 5. Save answer to database
+
+        connection = sqlite3.connect("nursing_genius.db")
+        cursor = connection.cursor()
+
+        cursor.execute("""
+        INSERT OR IGNORE INTO ai_answers
+        (question, answer, created_at)
+        VALUES (?, ?, ?)
+        """,
+        (
+            question.lower(),
+            ai_answer,
+            datetime.datetime.now().isoformat()
+        ))
+
+        connection.commit()
+        connection.close()
 
 
         return {
             "source": "AI",
             "title": "Nursing Genius AI",
-            "answer": data["choices"][0]["message"]["content"]
+            "answer": ai_answer
         }
 
 
