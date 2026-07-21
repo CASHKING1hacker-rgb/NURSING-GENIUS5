@@ -622,6 +622,8 @@ def login():
             session["user"] = user[2]
             session["name"] = user[1]
             session["role"] = user[4]
+            
+            print("Logged in role:", session["role"])
             print(session["role"])
             
             flash("Welcome to Nursing Genius!")
