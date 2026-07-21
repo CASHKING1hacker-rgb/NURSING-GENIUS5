@@ -1,15 +1,14 @@
 from flask import Flask, render_template, request, session, redirect, flash
 
 from flask import Response
-import datetime
-
-import requests
-
 import os
+import requests
+import datetime
+import sqlite3
 
-OPENROUTER_API_KEY = "sk-or-your-openrouter-key"
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 
-print("OPENROUTER KEY =", OPENROUTER_API_KEY)
+print("OPENROUTER KEY EXISTS:", bool(OPENROUTER_API_KEY))
 
 
 import sqlite3
@@ -23,6 +22,24 @@ app.secret_key = os.environ.get(
     "SECRET_KEY",
     "temporary-secret-key"
 )
+
+def create_admin():
+
+    conn = sqlite3.connect("nursing_genius.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE users
+    SET role='admin'
+    WHERE email=?
+    """,
+    ("mmuzafaru13@gmail.com",))
+
+    conn.commit()
+    conn.close()
+
+
+create_admin()
 
 def ask_ai(question):
 
@@ -1042,15 +1059,11 @@ def profile():
     cursor = connection.cursor()
 
     cursor.execute("""
-    SELECT fullname,
-           email,
-           profile_picture,
-           xp,
-           streak,
-           badges
-    FROM users
-    WHERE email=?
-    """, (session["user"],))
+SELECT fullname,email,role
+FROM users
+WHERE email=?
+""",
+(session["user"],))
 
     user = cursor.fetchone()
     print(user)
