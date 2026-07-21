@@ -26,9 +26,9 @@ app.secret_key = os.environ.get(
 
 def ask_ai(question):
 
-    # 1. Check saved AI answers first
-    connection = sqlite3.connect("nursing_genius.db")
-    cursor = connection.cursor()
+    # Check saved answers first
+    conn = sqlite3.connect("nursing_genius.db")
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT answer FROM ai_answers WHERE question=?",
@@ -37,37 +37,29 @@ def ask_ai(question):
 
     saved = cursor.fetchone()
 
-    connection.close()
-
     if saved:
+        conn.close()
         return {
-            "source": "Saved AI Answer",
+            "source": "Saved AI",
             "title": "Nursing Genius AI",
             "answer": saved[0]
         }
 
-
-    # 2. Search Nursing Genius notes
-
-    connection = sqlite3.connect("nursing_genius.db")
-    cursor = connection.cursor()
-
+    # Search notes
     cursor.execute("""
         SELECT topic, content
         FROM notes
         WHERE LOWER(topic) LIKE ?
-        OR LOWER(content) LIKE ?
+           OR LOWER(content) LIKE ?
         LIMIT 1
-    """,
-    (
+    """, (
         "%" + question.lower() + "%",
         "%" + question.lower() + "%"
     ))
 
     note = cursor.fetchone()
 
-    connection.close()
-
+    conn.close()
 
     if note:
         return {
@@ -76,18 +68,13 @@ def ask_ai(question):
             "answer": note[1]
         }
 
-
-    # 3. Check API key
-
+    # Check API key
     if not OPENROUTER_API_KEY:
         return {
             "source": "Error",
-            "title": "Missing API Key",
-            "answer": "OpenRouter API key is not configured."
+            "title": "Configuration Error",
+            "answer": "OPENROUTER_API_KEY is missing."
         }
-
-
-    # 4. Ask OpenRouter
 
     try:
 
@@ -96,13 +83,12 @@ def ask_ai(question):
             "Content-Type": "application/json"
         }
 
-
         payload = {
             "model": "openai/gpt-oss-20b:free",
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are Nursing Genius AI, an expert nursing tutor."
+                    "content": "You are Nursing Genius AI. Answer nursing questions clearly."
                 },
                 {
                     "role": "user",
@@ -111,7 +97,6 @@ def ask_ai(question):
             ]
         }
 
-
         response = requests.post(
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
@@ -119,51 +104,58 @@ def ask_ai(question):
             timeout=30
         )
 
+        # Stop if HTTP error
+        response.raise_for_status()
 
         data = response.json()
 
-
-        if "error" in data:
+        if "choices" not in data:
+            print(data)
             return {
                 "source": "AI",
-                "title": "AI temporarily unavailable",
-                "answer": data["error"]["message"]
+                "title": "AI Error",
+                "answer": "No response returned from OpenRouter."
             }
-
 
         ai_answer = data["choices"][0]["message"]["content"]
 
-
-        # 5. Save answer to database
-
-        connection = sqlite3.connect("nursing_genius.db")
-        cursor = connection.cursor()
+        conn = sqlite3.connect("nursing_genius.db")
+        cursor = conn.cursor()
 
         cursor.execute("""
         INSERT OR IGNORE INTO ai_answers
         (question, answer, created_at)
         VALUES (?, ?, ?)
-        """,
-        (
+        """, (
             question.lower(),
             ai_answer,
             datetime.datetime.now().isoformat()
         ))
 
-        connection.commit()
-        connection.close()
-
+        conn.commit()
+        conn.close()
 
         return {
-            "source": "AI",
+            "source": "OpenRouter AI",
             "title": "Nursing Genius AI",
             "answer": ai_answer
         }
 
+    except requests.exceptions.RequestException as e:
+        print("OPENROUTER ERROR:", e)
+        return {
+            "source": "Error",
+            "title": "Connection Error",
+            "answer": str(e)
+        }
 
     except Exception as e:
-    print("AI ERROR:", e)
-    raise
+        print("AI ERROR:", e)
+        return {
+            "source": "Error",
+            "title": "Unexpected Error",
+            "answer": str(e)
+        }
     
 @app.route("/")
 def home():
@@ -960,24 +952,29 @@ def sitemap():
 @app.route("/ai", methods=["GET", "POST"])
 def ai():
 
-    answer = ""
+    answer = None
 
     if request.method == "POST":
 
-        question = request.form["question"]
+        question = request.form.get("question", "").strip()
 
-        result = ask_ai(question)
+        if question:
 
-        answer = f"""
-        <h2>{result['title']}</h2>
-        <p>{result['answer']}</p>
-        <small>Source: {result['source']}</small>
-        """
+            result = ask_ai(question)
+
+            answer = f"""
+            <div class="card">
+                <h3>{result['title']}</h3>
+                <p>{result['answer']}</p>
+                <hr>
+                <small><b>Source:</b> {result['source']}</small>
+            </div>
+            """
 
     return render_template(
         "ai.html",
         answer=answer
-        )
+    )
 @app.route("/about")
 def about():
     return render_template("about.html")
