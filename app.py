@@ -7,7 +7,7 @@ import requests
 
 import os
 
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+OPENROUTER_API_KEY = "sk-or-your-openrouter-key"
 
 print("OPENROUTER KEY =", OPENROUTER_API_KEY)
 
@@ -403,7 +403,15 @@ def admin():
     if session.get("role") != "admin":
         return "Access Denied!"
 
-    return render_template("admin.html")
+    return """
+    <h1>Admin Panel</h1>
+
+    <a href="/add_note">Add Notes</a><br><br>
+
+    <a href="/add_question">Add Questions</a><br><br>
+
+    <a href="/add_seo_page">Add SEO Page</a>
+    """
 
     
 @app.route("/add_note", methods=["GET", "POST"])
