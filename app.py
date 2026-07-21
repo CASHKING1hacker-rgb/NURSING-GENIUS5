@@ -16,6 +16,26 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
+def create_ai_table():
+
+    connection = sqlite3.connect("nursing_genius.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS ai_answers(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question TEXT UNIQUE,
+        answer TEXT,
+        created_at TEXT
+    )
+    """)
+
+    connection.commit()
+    connection.close()
+
+
+create_ai_table()
+
 import os
 
 app.secret_key = os.environ.get(
