@@ -162,12 +162,8 @@ def ask_ai(question):
 
 
     except Exception as e:
-
-        return {
-            "source": "Error",
-            "title": "AI Error",
-            "answer": str(e)
-        }
+    print("AI ERROR:", e)
+    raise
     
 @app.route("/")
 def home():
@@ -529,6 +525,7 @@ def login():
             session["user"] = user[2]
             session["name"] = user[1]
             session["role"] = user[4]
+            print(session["role"])
             
             flash("Welcome to Nursing Genius!")
 
