@@ -6,27 +6,31 @@
 
 <div class="card">
 
-<h1>🤖 Nursing Genius AI Tutor</h1>
+    <h1>🤖 Nursing Genius AI Tutor</h1>
 
-<form method="POST">
+    <form method="POST">
 
-<input
-type="text"
-name="question"
-placeholder="Ask any nursing question..."
-style="width:100%;padding:12px;">
+        <input
+            type="text"
+            name="question"
+            placeholder="Ask any nursing question..."
+            style="width:100%;padding:12px;"
+            required
+            autocomplete="off">
 
-<br><br>
+        <br><br>
 
-<button class="button">
-Ask AI
-</button>
+        <button class="button" type="submit">
+            Ask AI
+        </button>
 
-</form>
+    </form>
 
-<hr>
+    <hr>
 
-{{ answer|safe }}
+    {% if answer %}
+        {{ answer|safe }}
+    {% endif %}
 
 </div>
 
