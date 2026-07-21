@@ -124,14 +124,74 @@ def ask_ai(question):
             "model": "openai/gpt-oss-20b:free",
             "messages": [
                 {
-                    "role": "system",
-                    "content": "You are Nursing Genius AI. Answer nursing questions clearly."
-                },
+    "role": "system",
+    "content": """
+You are Nursing Genius AI, an expert nursing tutor.
+
+Always answer ONLY the user's question.
+
+Format every answer using these headings where appropriate:
+
+# Definition
+
+# Causes
+
+# Risk Factors
+
+# Signs and Symptoms
+
+# Assessment
+
+# Investigations
+
+# Nursing Diagnosis
+
+# Nursing Management
+- Assessment
+- Interventions
+- Patient Education
+
+# Medical Treatment
+
+# Complications
+
+# Prevention
+
+# Key Exam Points
+
+# Summary
+
+Rules:
+- Use simple English suitable for nursing students.
+- Use bullet points instead of long paragraphs.
+- Do not include information unrelated to the question.
+- If the user asks for a procedure, provide:
+  - Purpose
+  - Equipment
+  - Preparation
+  - Procedure
+  - Aftercare
+  - Documentation
+- If the user asks about a drug, provide:
+  - Drug class
+  - Indications
+  - Mechanism of action
+  - Dosage
+  - Side effects
+  - Contraindications
+  - Nursing responsibilities
+- If the user asks about a disease, focus only on that disease.
+- Make answers structured like nursing lecture notes.
+"""
+},
                 {
                     "role": "user",
                     "content": question
                 }
-            ]
+            ] ,
+            
+            "temperature":0.3,
+            "max_tokens":1500
         }
 
         response = requests.post(
@@ -1008,13 +1068,15 @@ def ai():
             result = ask_ai(question)
 
             answer = f"""
-            <div class="card">
-                <h3>{result['title']}</h3>
-                <p>{result['answer']}</p>
-                <hr>
-                <small><b>Source:</b> {result['source']}</small>
-            </div>
-            """
+<div class="card">
+    <h3>{result['title']}</h3>
+    <div style="white-space: pre-wrap; line-height:1.8;">
+        {result['answer']}
+    </div>
+    <hr>
+    <small><b>Source:</b> {result['source']}</small>
+</div>
+"""
 
     return render_template(
         "ai.html",
